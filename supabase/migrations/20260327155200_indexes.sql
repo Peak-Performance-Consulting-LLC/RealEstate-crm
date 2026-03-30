@@ -1,0 +1,28 @@
+create unique index roles_slug_idx on public.roles (slug);
+create unique index workspace_members_unique_active_idx on public.workspace_members (workspace_id, profile_id);
+create unique index tags_workspace_name_idx on public.tags (workspace_id, lower(name)) where deleted_at is null;
+create unique index sources_workspace_name_idx on public.sources (workspace_id, lower(name)) where deleted_at is null;
+create unique index pipelines_default_workspace_idx on public.pipelines (workspace_id) where is_default = true and deleted_at is null;
+
+create index workspaces_owner_idx on public.workspaces (owner_profile_id);
+create index workspace_members_profile_idx on public.workspace_members (profile_id, status);
+create index invitations_workspace_email_idx on public.invitations (workspace_id, email, status);
+create index sources_workspace_idx on public.sources (workspace_id) where deleted_at is null;
+create index pipelines_workspace_idx on public.pipelines (workspace_id, position) where deleted_at is null;
+create index pipeline_stages_pipeline_idx on public.pipeline_stages (pipeline_id, position) where deleted_at is null;
+create index leads_workspace_idx on public.leads (workspace_id, created_at desc) where deleted_at is null;
+create index leads_workspace_stage_idx on public.leads (workspace_id, current_stage_id) where deleted_at is null;
+create index leads_workspace_assigned_idx on public.leads (workspace_id, assigned_to) where deleted_at is null;
+create index leads_workspace_source_idx on public.leads (workspace_id, source_id) where deleted_at is null;
+create index lead_contact_methods_lead_idx on public.lead_contact_methods (lead_id) where deleted_at is null;
+create index lead_notes_lead_idx on public.lead_notes (lead_id, created_at desc) where deleted_at is null;
+create index lead_tasks_workspace_due_idx on public.lead_tasks (workspace_id, due_at) where deleted_at is null;
+create index lead_tasks_assigned_idx on public.lead_tasks (assigned_to, status) where deleted_at is null;
+create index lead_stage_history_lead_idx on public.lead_stage_history (lead_id, created_at desc);
+create index lead_tags_workspace_idx on public.lead_tags (workspace_id, tag_id);
+create index custom_fields_workspace_idx on public.custom_fields (workspace_id, entity_type, position) where deleted_at is null;
+create index custom_field_values_entity_idx on public.custom_field_values (workspace_id, entity_type, entity_id);
+create index imports_workspace_idx on public.imports (workspace_id, created_at desc) where deleted_at is null;
+create index import_rows_import_idx on public.import_rows (import_id, row_number);
+create index audit_logs_workspace_entity_idx on public.audit_logs (workspace_id, entity_type, entity_id, created_at desc);
+create index timeline_events_lead_idx on public.activity_timeline_events (lead_id, occurred_at desc);
